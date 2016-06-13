@@ -37,12 +37,6 @@ public class Main {
 			e.printStackTrace();
 		}
 
-		/*
-		 * This is to free memory which otherwise would not be free. I know, its
-		 * BAD CODING PRACTICE.
-		 */
-		System.gc();
-
 		createMergedFile();
 
 	}

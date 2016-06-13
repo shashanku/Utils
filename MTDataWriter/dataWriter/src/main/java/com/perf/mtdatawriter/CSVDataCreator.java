@@ -15,6 +15,7 @@ import java.util.concurrent.Callable;
 public class CSVDataCreator implements Callable<String> {
 
 	int rowsPerFile;
+	boolean isTest = false;
 
 	public CSVDataCreator() {
 	}
@@ -24,15 +25,24 @@ public class CSVDataCreator implements Callable<String> {
 	}
 
 	public String call() throws Exception {
-		String retval = "-1|Error";
 
 		String threadId = String.valueOf(Thread.currentThread().getId());
 
 		double start = System.currentTimeMillis();
-		System.out.println(threadId + "_Start:" + start);
+
+		if (isTest) {
+
+			System.out.println(threadId + ": START");
+			Thread.sleep(5000);
+			System.out.println(threadId + ": END");
+			return "0|OK";
+
+		}
+
+		String retval = "-1|Error";
 
 		String fileName = String.valueOf(System.currentTimeMillis()) + "_" + threadId;
-		System.out.println("FIleName:" + fileName);
+		// System.out.println("FileName:" + fileName);
 
 		File file = new File("./output/" + fileName + ".csv");
 
@@ -40,6 +50,9 @@ public class CSVDataCreator implements Callable<String> {
 		if (!file.exists()) {
 			file.createNewFile();
 		}
+
+		// System.out.println("ThreadId_" + threadId + ": START with fileName:"
+		// + file.getName());
 
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 		BufferedWriter bw = new BufferedWriter(fw);
@@ -50,8 +63,9 @@ public class CSVDataCreator implements Callable<String> {
 		bw.close();
 
 		double end = System.currentTimeMillis();
-		System.out.println(threadId + "_End:" + end);
-		System.out.println(threadId + "_Diff:" + (end - start));
+		// System.out.println("ThreadId_" + threadId + ": END with fileName:" +
+		// file.getName());
+		System.out.println("ThreadId_" + threadId + ": " + (end - start) / 1000 + "(s) with fileName:" + file.getName());
 
 		retval = "0|OK";
 

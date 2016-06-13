@@ -27,17 +27,7 @@ public class CallableFutures {
 
 	public void execute() throws ParserConfigurationException, SAXException, IOException {
 
-		int iterations = noOfFile % Constants.NTHREDS;
-
-		for (int i = 0; i < iterations; i++) {
-			createData(10);
-		}
-
-		int rem = noOfFile - (iterations * Constants.NTHREDS);
-
-		if (rem > 0)
-			createData(noOfFile - (iterations * Constants.NTHREDS));
-
+		createData(noOfFile);
 	}
 
 	private void createData(int noOfThreads) {
